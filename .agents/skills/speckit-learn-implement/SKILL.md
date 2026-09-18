@@ -54,12 +54,18 @@ For every task selected from `tasks.md`, execute this continuous 5-stage loop:
 
 ---
 
-### Stage 1: The 80/20 Architectural Anchor
+### Stage 1: The 80/20 Architectural Anchor & Documentation Discovery
 
 Before showing or writing code:
 1. **Isolate the 80/20 Core**:
    - What 2–4 fundamental concepts, data structures, or design patterns drive this task? (e.g., event loops, immutable state transitions, repository pattern, Pratt parsing).
-2. **First-Principles Framing**:
+
+2. **Search & Curate Authoritative Documentation**:
+   - Proactively search official documentation, framework guides, API references, or RFCs relevant to this task.
+   - Filter down to the highest-signal 1–3 documentation links (avoid dumping exhaustive link lists).
+   - Provide these directly to the user with a brief annotation explaining *why* each document matters and which specific section/function to focus on.
+
+3. **First-Principles Framing**:
    - Explain *why* this component is structured this way. Connect it to system goals (concurrency, safety, extensibility, latency).
    - Provide a brief ASCII or Mermaid diagram illustrating the data flow or component relationships.
    - Provide clear analogies only where they preserve the actual mechanics; state explicitly where the analogy ends.
@@ -79,6 +85,9 @@ For each task or major functional milestone:
 
    ## 🧠 Core Concepts & Mental Model
    - 80/20 foundations, key terms, and architectural diagrams.
+
+   ## 📚 Curated Reference Docs & Deep Dives
+   - Links to official docs and API references with notes on relevant sections.
 
    ## 🛠️ Step-by-Step Implementation Guide
    - Detailed breakdown of each micro-step (interfaces, logic, error handling).
