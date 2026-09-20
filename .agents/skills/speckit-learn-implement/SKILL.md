@@ -15,6 +15,11 @@ $ARGUMENTS
 
 You **MUST** consider the user input before proceeding (if not empty).
 
+For skill-based agents such as Codex, agy, and Copilot, also read the task ID, function name,
+or learning focus from the user's invocation or message. If `$ARGUMENTS` remains
+literal, treat it as an unexpanded placeholder, not as a task name. When no target
+is supplied, select the next uncompleted task as described below.
+
 ## Pre-Execution Checks
 
 **Check for extension hooks (before implementation)**:

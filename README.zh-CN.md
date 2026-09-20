@@ -88,6 +88,11 @@ CLI 只需安装一次，项目只需初始化一次；以下三种流程共用�
 /speckit-converge
 ```
 
+如果希望在生成任务后，以学习者主导的方式逐步完成实现，可使用
+`/speckit-learn-implement`，也可以附加任务 ID，例如 `T001`。
+Copilot 和 Antigravity 使用 `/speckit-learn-implement T001`；Codex 使用
+`$speckit-learn-implement T001`。
+
 反复执行 **implement → converge**，直到收敛报告给出 **Converged**。
 需要额外的质量把关时，可加入需求澄清、检查清单和一致性分析。
 

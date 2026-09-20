@@ -86,6 +86,11 @@ Invoke these skills in your agent's chat:
 /speckit-converge
 ```
 
+For a learner-led implementation walkthrough after generating tasks, use
+`/speckit-learn-implement` (or add a task ID such as `T001`). Copilot and
+Antigravity use `/speckit-learn-implement T001`; Codex uses
+`$speckit-learn-implement T001`.
+
 Repeat **implement → converge** until convergence reports **Converged**.
 Add clarification, checklists, and consistency analysis when you need extra
 quality gates.

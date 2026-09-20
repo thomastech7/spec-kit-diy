@@ -29,6 +29,7 @@ skills by default.
 | `/speckit.plan` | `speckit-plan` | Create the technical implementation plan |
 | `/speckit.tasks` | `speckit-tasks` | Break the plan into actionable tasks |
 | `/speckit.implement` | `speckit-implement` | Execute the tasks |
+| `/speckit.learn-implement` | `speckit-learn-implement` | Learn to implement tasks through guided lessons and learner-written code |
 | `/speckit.converge` | `speckit-converge` | Assess implementation against the artifacts and append remaining work |
 | `/speckit.taskstoissues` | `speckit-taskstoissues` | Optionally convert tasks into GitHub issues |
 | `/speckit.clarify` | `speckit-clarify` | Resolve ambiguity before planning (optional quality gate; formerly `/quizme`) |
@@ -144,6 +145,37 @@ For a large feature, work in stages to avoid overwhelming the agent's context â€
 ```
 
 Verify each stage works before moving to the next.
+
+## `/speckit.learn-implement`
+
+Guides you through implementing `tasks.md` one lesson at a time. The agent explains
+the architecture, provides complete code examples and verification steps, and
+maintains a curriculum in `.specify/tutorials/`. You write the production code;
+lessons and tasks remain incomplete until you confirm implementation and
+verification. Run it after generating `plan.md` and `tasks.md`.
+
+Codex, Antigravity (agy), and GitHub Copilot use the skill generated from
+`templates/commands/learn-implement.md`. Codex and Antigravity install it at
+`.agents/skills/speckit-learn-implement/SKILL.md`; Copilot installs it at
+`.github/skills/speckit-learn-implement/SKILL.md`. Invoke it in the agent chat using:
+
+| Agent | Next incomplete task | Specific task |
+| --- | --- | --- |
+| Codex | `$speckit-learn-implement` | `$speckit-learn-implement T001` |
+| Antigravity (agy) | `/speckit-learn-implement` | `/speckit-learn-implement T001` |
+| GitHub Copilot | `/speckit-learn-implement` | `/speckit-learn-implement T001` |
+
+You can also name a function or describe a learning focus after the skill name.
+Create a new Codex project using this fork's CLI:
+
+```bash
+specify init my-project --integration codex --script py
+```
+
+For an existing Codex project, run `specify integration upgrade codex` with this
+fork's CLI to install or refresh the skill. See [Local Development](../local-development.md)
+for running the CLI directly from this checkout. Projects already initialized
+with agy have the shared skill available to Codex in the same project directory.
 
 ## `/speckit.converge`
 
