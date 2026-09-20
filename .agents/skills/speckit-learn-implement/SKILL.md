@@ -32,6 +32,7 @@ Turn Spec Kit task execution into an active, pedagogical learning experience. In
 > - **The learner writes the code themselves**: The AI assistant MUST NOT modify production files directly. The learner must perform the edits to build hands-on muscle memory and mastery.
 > - **AI tutor role**: Pre-flight verify that the solution works (to ensure the tutorial is 100% accurate), author the comprehensive tutorial lesson in `.specify/tutorials/`, provide full drop-in code implementations (no `+`/`-` diffs), and guide the learner.
 > - **Keep production files untouched**: If any files are modified during pre-flight checks, revert them immediately (e.g. `git checkout`) so the learner receives a clean workspace to work in.
+> - **Celebrate Small Wins (Deployable Micro-MVP Focus)**: Every lesson must drive toward a tangible, runnable, and deployable milestone—a functional "micro-MVP". Never leave the learner in an uncompilable, abstract intermediate state across lessons. Conclude each milestone by giving the learner the immediate satisfaction of seeing something work (a green test, a working CLI command, an interactive UI state, or a live endpoint), and explicitly celebrate that win to maintain learning momentum.
 > - **Bridge Code & UI via Previews**: In UI lessons, ALWAYS provide an isolated `Preview` harness or preview wrapper widget. This decouples the View from live data/network calls and allows the student to visually inspect and toggle distinct states (`Empty`, `Populated`, `Loading`, `Error`) side-by-side.
 > - **Real Device / Simulator Execution**: Always instruct and encourage the learner to run the app on a physical device, simulator, or desktop runner (`flutter run -d macos` / `flutter run -d chrome`, web preview, etc.) so they experience the tactile, live visual feedback.
 > - **Workspace & Tenant Boundaries**: When static workspace identifiers (e.g. `'thanh'` or provisional tenant IDs) are used during early development, explicitly label them as provisional boundaries and document backlog items for self-serve workspace creation and invitation onboarding.
@@ -46,7 +47,7 @@ Turn Spec Kit task execution into an active, pedagogical learning experience. In
             ↓
 [4. Active Retrieval & Feynman Checkpoint]
             ↓
-[5. Validation, Reflection & Progress Tracking (User Verifies)]
+[5. Validation, Reflection & Celebrate Small Win (User Verifies)]
 ```
 
 ---
@@ -97,6 +98,7 @@ Turn Spec Kit task execution into an active, pedagogical learning experience. In
      ## 🛠️ Step-by-Step Implementation Guide
      ## 💡 Worked Example & Annotated Code
      ## ⚡ Verification Commands & Failure Decoding (TDD Red/Green Breakdown)
+     ## 🎉 Celebrate the Small Win (Runnable Micro-MVP)
      ## 🧩 Active Retrieval & Practice
      ## 📝 Troubleshooting & Common Pitfalls
      ```
@@ -114,6 +116,7 @@ Turn Spec Kit task execution into an active, pedagogical learning experience. In
      - **Step C**: Core algorithm implementation line-by-line.
      - **Step D**: Edge cases, errors, offline resilience, and defensive hardening.
    - Walk through code incrementally with plain-English annotations suitable for beginners.
+   - **Micro-MVP Scope & Early Vertical Slice**: Structure micro-steps so that a minimal, functioning end-to-end slice is achieved as early as possible. Learners build confidence and momentum when they can touch and verify a tiny working prototype before layering on secondary edge cases and hardening.
    - **Hands-Off Workspace / Learner Implements**: Do NOT modify production files on behalf of the user. Provide explicit instructions on **What file to create or append** (exact path and complete code snippet) and **What file to modify** (exact path, lines, and clean full function implementations or full method implementations if inside a class), enabling the student to follow along and execute the changes themselves.
    - **Full Function Implementations (No `+`/`-` diffs)**: Always provide clean, complete function/component implementations rather than diff blocks with `+` and `-`. This saves tokens, prevents syntax noise, and lets the student use `git diff` to inspect changes.
    - **Bridge Code & UI with Visual Previews**: In UI lessons, guide the learner to use or create isolated `Preview` harnesses (e.g. preview wrappers, state toggles) to visually inspect how the View renders across different states (`Empty State`, `Loading State`, `Populated State`) independent of backend connectivity.
@@ -125,10 +128,11 @@ Turn Spec Kit task execution into an active, pedagogical learning experience. In
    - Prompt the user with a targeted Feynman check, prediction challenge, or fill-in-the-blank prompt.
    - Adjust explanation based on user response.
 
-9. **Stage 5: Validation, Reflection & Progress Tracking**:
+9. **Stage 5: Validation, Reflection & Celebrate Small Win**:
    - Provide step-by-step verification commands with explanations of flags (`-v`, `-k`, `--tb=short`, `-r expanded`). Teach clean filtering (e.g. piping to `grep -E "(\+[0-9]+|\[E\])"`) so stack traces do not scroll past the student's terminal buffer.
    - Decode failure messages into plain English, clearly separating **Test Harness Defects** (e.g., compilation errors or 401 leaks from incomplete mocks) from **Intentional TDD Red Assertions** (confirming the test caught the legacy bug).
    - When presenting the tutorial, keep the lesson and task marked as *In Progress* (`- [ ]`) in `.specify/tutorials/INDEX.md` and `tasks.md`.
    - Provide manual verification instructions (including running on simulator/device or running unit/widget tests) and ask the user to verify their implementation.
+   - **Celebrate the Win & Acknowledge Progress**: Explicitly acknowledge the tangible capability unlocked by this step ("🎉 Milestone reached: You just implemented and verified [feature / state / endpoint]!").
    - Only mark lesson complete in `.specify/tutorials/INDEX.md` (`- [X]`) and task complete in `tasks.md` (`- [X] Task ID`) AFTER the user confirms successful completion.
    - Ask user if ready to proceed to the next lesson or explore further.
