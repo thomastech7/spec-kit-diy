@@ -38,10 +38,12 @@ core; bug fixing and assessment are bundled extensions you install when needed.
 
 You need **Python 3.11+**, **[uv](https://github.github.io/spec-kit/install/uv.html)**,
 and a supported AI coding agent on Linux, macOS, or Windows.
-For **CLI setup only**, run this in your terminal to install Spec Kit and create a project:
+This DIY fork includes the standard Spec Kit workflow plus the guided
+`/speckit-learn-implement` experience for task-based implementation practice.
+For **CLI setup only**, run this in your terminal to install the DIY version and create a project:
 
 ```bash
-uv tool install specify-cli
+uv tool install --force git+https://github.com/thomastech7/spec-kit-diy.git@main-diy
 specify init my-project --integration copilot
 cd my-project
 ```
@@ -72,6 +74,10 @@ commands. Other agents and modes may use
 Define **what and why** before deciding **how** to build it. SDD turns your
 requirements into a specification, a technical plan, and actionable tasks,
 then guides implementation against those artifacts.
+
+This fork also includes the guided implementation skill for hands-on task work:
+`/speckit-learn-implement` helps walk through a task step by step while keeping
+implementation and verification explicit.
 
 **Constitution once per project; specify → plan → tasks → implement → converge per feature.**
 
