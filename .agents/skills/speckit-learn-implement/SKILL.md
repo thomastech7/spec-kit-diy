@@ -1,45 +1,67 @@
 ---
-name: speckit-learn-implement
-description: Step-by-step educational implementation of tasks.md. Teaches architectural patterns, decomposes functions into bite-sized micro-steps, maintains a structured tutorial curriculum, and uses active retrieval checkpoints.
+name: "speckit-learn-implement"
+description: "Step-by-step educational implementation of tasks.md. Teaches architectural patterns, decomposes functions into bite-sized micro-steps, maintains a structured tutorial curriculum, and uses active retrieval checkpoints."
+compatibility: "Requires spec-kit project structure with .specify/ directory"
+metadata:
+  author: "github-spec-kit"
+  source: "templates/commands/learn-implement.md"
 ---
 
-# Speckit Learn & Implement
+## User Input
+
+```text
+$ARGUMENTS
+```
+
+You **MUST** consider the user input before proceeding (if not empty).
+
+## Pre-Execution Checks
+
+**Check for extension hooks (before implementation)**:
+- Check if `.specify/extensions.yml` exists in the project root.
+- If it exists, read it and look for entries under the `hooks.before_implement` key.
+- If the YAML cannot be parsed or is invalid, warn the user and continue normally.
+- Filter out hooks where `enabled` is explicitly `false`.
+
+## The 5-Stage Educational Implementation Loop
 
 Turn Spec Kit task execution into an active, pedagogical learning experience. Instead of acting as an autonomous black-box code generator, act as a master senior engineer and tutor: teach the underlying principles, break complex functions down into guided micro-steps, maintain a tutorial curriculum to track learning, and use active retrieval checkpoints.
 
----
-
-## The 5-Stage Learning Loop
-
-For every task selected from `tasks.md`, execute this continuous 5-stage loop:
+> [!IMPORTANT]
+> **Learner-Led Implementation Rules & Educational Standards**:
+> - **The learner writes the code themselves**: The AI assistant MUST NOT modify production files directly. The learner must perform the edits to build hands-on muscle memory and mastery.
+> - **AI tutor role**: Pre-flight verify that the solution works (to ensure the tutorial is 100% accurate), author the comprehensive tutorial lesson in `.specify/tutorials/`, provide full drop-in code implementations (no `+`/`-` diffs), and guide the learner.
+> - **Keep production files untouched**: If any files are modified during pre-flight checks, revert them immediately (e.g. `git checkout`) so the learner receives a clean workspace to work in.
+> - **Bridge Code & UI via Previews**: In UI lessons, ALWAYS provide an isolated `Preview` harness or preview wrapper widget. This decouples the View from live data/network calls and allows the student to visually inspect and toggle distinct states (`Empty`, `Populated`, `Loading`, `Error`) side-by-side.
+> - **Real Device / Simulator Execution**: Always instruct and encourage the learner to run the app on a physical device, simulator, or desktop runner (`flutter run -d macos` / `flutter run -d chrome`, web preview, etc.) so they experience the tactile, live visual feedback.
+> - **Workspace & Tenant Boundaries**: When static workspace identifiers (e.g. `'thanh'` or provisional tenant IDs) are used during early development, explicitly label them as provisional boundaries and document backlog items for self-serve workspace creation and invitation onboarding.
+> - **Tracking status**: When presenting the tutorial, mark the lesson and task as *In Progress* (`- [ ]`). Only mark complete (`- [X]`) after the user confirms they have implemented and verified the changes.
 
 ```
-[1. 80/20 Architectural Anchor] 
+[1. 80/20 Architectural Anchor & Documentation Discovery]
             ↓
 [2. Lesson Generation & Tracking (.specify/tutorials/)]
             ↓
-[3. Micro-Step Function Decomposition & Guided Coding]
+[3. Micro-Step Function Decomposition & Guided Coding (Learner Implements)]
             ↓
 [4. Active Retrieval & Feynman Checkpoint]
             ↓
-[5. Validation, Reflection & Progress Tracking]
+[5. Validation, Reflection & Progress Tracking (User Verifies)]
 ```
 
 ---
 
-## Workflow Instructions
+## Outline
 
-### Phase 0: Context Discovery & Setup
+1. Run `.specify/scripts/bash/check-prerequisites.sh --json --require-tasks --include-tasks` from repo root and parse FEATURE_DIR and AVAILABLE_DOCS list. All paths must be absolute.
+2. Load implementation context:
+   - **REQUIRED**: Read `tasks.md` for the complete task list and execution plan.
+   - **REQUIRED**: Read `plan.md` for tech stack, architecture, and file structure.
+   - **IF EXISTS**: Read `data-model.md`, `contracts/`, `research.md`.
 
-1. **Load Spec Kit Artifacts**:
-   - Locate the active feature directory (`specs/<feature>/` or via project scripts).
-   - Read `tasks.md` for task breakdown, phases, and dependencies.
-   - Read `plan.md` for architecture, tech stack, and directory structure.
-   - If present, read `data-model.md`, `research.md`, and contracts.
-
-2. **Initialize the Tutorial Registry**:
-   - Check if `.specify/tutorials/` (or `specs/<feature>/tutorials/`) exists. If not, create it.
-   - Ensure an `INDEX.md` exists with the curriculum overview:
+3. **Initialize the Tutorial Registry**:
+   - Ensure `.specify/tutorials/` exists.
+   - Ensure `.specify/tutorials/INDEX.md` exists with the curriculum index:
      ```markdown
      # Tutorial Curriculum: [Feature / Project Name]
 
@@ -48,117 +70,65 @@ For every task selected from `tasks.md`, execute this continuous 5-stage loop:
      - [ ] **Lesson 02**: [Task 2 Name] — *Pending*
      ```
 
-3. **Identify Target Task**:
-   - If the user passed specific arguments (`$ARGUMENTS`), match the requested task or function.
-   - Otherwise, select the first unchecked task (`- [ ]`) from `tasks.md`.
+4. **Select Target Task**:
+   - If user input specifies a task/function, target that.
+   - Otherwise, select the next uncompleted task (`- [ ]`) from `tasks.md`.
 
----
+5. **Stage 1: The 80/20 Architectural Anchor & Documentation Discovery**:
+   - Isolate 2–4 fundamental concepts or design patterns.
+   - **Proactively search authoritative documentation**: Official framework guides, language docs, or RFCs.
+   - Deliver the top 1–3 curated links to the user in chat with a note on *why* they matter and which section to read.
+   - **Ground in The "Why"**: Connect the task directly to the active User Story and constitutional principles (e.g. Data-First Contracts, Security by Design). Explain why TDD writes a failing test/detector before modifying production code.
+   - Explain the first-principles framing and provide a mental model diagram (ASCII or Mermaid).
 
-### Stage 1: The 80/20 Architectural Anchor & Documentation Discovery
+6. **Stage 2: Lesson Generation & Tracking**:
+   - **Tutorial Granularity Options (Single-File vs. Separated Files)**:
+     - **Modular Lessons (Default for Deep / Complex Topics)**: Create individual lesson files (`.specify/tutorials/lesson-<NN>-<task-slug>.md`). Best for beginners, complex multi-phase systems, or deep architectural patterns requiring dedicated checkpoints.
+     - **Consolidated Guide (Time-Saving Option for Simple Stories / Intermediate Learners)**: Consolidate all lessons or an entire User Story into a single cohesive markdown document (`.specify/tutorials/<feature-slug>-full-guide.md`).
+     - *Pedagogical Flexibility*: When a User Story is straightforward or the learner prefers faster execution, prompt the user: *"Would you prefer a single consolidated tutorial for this story to save time, or bite-sized separated lessons?"*
+   - Structure each lesson or section using:
+     ```markdown
+     # Lesson <NN>: <Task Title>
 
-Before showing or writing code:
-1. **Isolate the 80/20 Core**:
-   - What 2–4 fundamental concepts, data structures, or design patterns drive this task? (e.g., event loops, immutable state transitions, repository pattern, Pratt parsing).
+     ## 🌟 Context & The "Why" (User Story & Constitutional Alignment)
+     ## 🎯 Learning Objectives
+     ## 🧠 Core Concepts & Mental Model (Beginner-Friendly with Analogies)
+     ## 📚 Curated Reference Docs & Deep Dives
+     ## 🛠️ Step-by-Step Implementation Guide
+     ## 💡 Worked Example & Annotated Code
+     ## ⚡ Verification Commands & Failure Decoding (TDD Red/Green Breakdown)
+     ## 🧩 Active Retrieval & Practice
+     ## 📝 Troubleshooting & Common Pitfalls
+     ```
+   - Update `.specify/tutorials/INDEX.md`.
 
-2. **Search & Curate Authoritative Documentation**:
-   - Proactively search official documentation, framework guides, API references, or RFCs relevant to this task.
-   - Filter down to the highest-signal 1–3 documentation links (avoid dumping exhaustive link lists).
-   - Provide these directly to the user with a brief annotation explaining *why* each document matters and which specific section/function to focus on.
+7. **Stage 3: Micro-Step Function Decomposition & Guided Coding**:
+   - Decompose into:
+     - **Step 0**: Environment & import configuration (e.g. package setup, config files, path resolution).
+     - **Step A**: Interfaces, data shapes, and type invariants.
+     - **Step B**: Test-driven specification (scaffold tests first).
+       - **Source-Verified Test Doubles**: Before scaffolding fake/mock services, ALWAYS inspect the actual source class and model constructors. Ensure every optional named parameter is accepted and all methods called by the workflow are intercepted to prevent unmocked network leaks (e.g. 401/socket errors).
+       - **Explicit TDD Test Tagging**: Label every test as either `[BASELINE PASS]` or `[INTENTIONAL RED until Task T<NN>]` so students immediately know which failure is expected and which task will resolve it.
+       - **Defensive Test Harness Design**: Configure realistic test environment parameters (mock viewports, timeouts, environmental flags). Defend against false-positive environmental failures by scoping assertions strictly to the functional contract under test.
+     - **Pre-Flight Test Verification (Mandatory for Agent)**: Verify that the test harness and proposed code changes work cleanly before authoring the tutorial. If any production files were touched during verification, immediately revert them (e.g. `git checkout`) so the user's codebase remains untouched.
+     - **Step C**: Core algorithm implementation line-by-line.
+     - **Step D**: Edge cases, errors, offline resilience, and defensive hardening.
+   - Walk through code incrementally with plain-English annotations suitable for beginners.
+   - **Hands-Off Workspace / Learner Implements**: Do NOT modify production files on behalf of the user. Provide explicit instructions on **What file to create or append** (exact path and complete code snippet) and **What file to modify** (exact path, lines, and clean full function implementations or full method implementations if inside a class), enabling the student to follow along and execute the changes themselves.
+   - **Full Function Implementations (No `+`/`-` diffs)**: Always provide clean, complete function/component implementations rather than diff blocks with `+` and `-`. This saves tokens, prevents syntax noise, and lets the student use `git diff` to inspect changes.
+   - **Bridge Code & UI with Visual Previews**: In UI lessons, guide the learner to use or create isolated `Preview` harnesses (e.g. preview wrappers, state toggles) to visually inspect how the View renders across different states (`Empty State`, `Loading State`, `Populated State`) independent of backend connectivity.
+   - **Real Device / Simulator Running**: Encourage the learner to run the app on a physical device, simulator, or desktop runner (e.g. `flutter run -d macos` / `flutter run -d chrome`) to interact with the UI live and feel the tactile experience.
+   - **Workspace & Tenant Boundaries**: When temporary static workspace identifiers (e.g. `'thanh'`) are used during early scaffolding, explicitly identify the boundary and document backlog/user-story items for self-serve workspace creation and user invitation onboarding.
+   - **Keyword Reference Mapping**: In each implementation step, explicitly highlight key technical terms/keywords with direct markdown links to authoritative documentation URLs (e.g. official language/framework docs, RFCs) so students can dive deeper easily.
 
-3. **First-Principles Framing**:
-   - Explain *why* this component is structured this way. Connect it to system goals (concurrency, safety, extensibility, latency).
-   - Provide a brief ASCII or Mermaid diagram illustrating the data flow or component relationships.
-   - Provide clear analogies only where they preserve the actual mechanics; state explicitly where the analogy ends.
+8. **Stage 4: Active Retrieval & Feynman Checkpoint**:
+   - Prompt the user with a targeted Feynman check, prediction challenge, or fill-in-the-blank prompt.
+   - Adjust explanation based on user response.
 
----
-
-### Stage 2: Lesson Generation & Tracking
-
-For each task or major functional milestone:
-1. Create or update a lesson document: `.specify/tutorials/lesson-<NN>-<task-slug>.md`.
-2. Format the lesson using this structure:
-   ```markdown
-   # Lesson <NN>: <Task Title>
-
-   ## 🎯 Learning Objectives
-   - What the learner will understand and build by the end of this lesson.
-
-   ## 🧠 Core Concepts & Mental Model
-   - 80/20 foundations, key terms, and architectural diagrams.
-
-   ## 📚 Curated Reference Docs & Deep Dives
-   - Links to official docs and API references with notes on relevant sections.
-
-   ## 🛠️ Step-by-Step Implementation Guide
-   - Detailed breakdown of each micro-step (interfaces, logic, error handling).
-
-   ## 💡 Worked Example & Annotated Code
-   - Explanations of non-obvious lines, trade-offs, and design decisions.
-
-   ## 🧩 Active Retrieval & Practice
-   - Self-quiz questions and fill-in-the-blank or challenge prompts.
-
-   ## 📝 Reflection & Common Pitfalls
-   - Edge cases, anti-patterns to avoid, and debugging insights.
-   ```
-3. Update `.specify/tutorials/INDEX.md` with links to the new lesson.
-
----
-
-### Stage 3: Micro-Step Decomposition & Guided Coding
-
-Decompose the function or task into distinct micro-steps. Do not dump large multi-file diffs at once. Progress through:
-
-1. **Step A — Contracts & Types**:
-   - Define data shapes, interfaces, and function signatures.
-   - Explain what invariants each type guarantees.
-
-2. **Step B — Test-Driven Specification (Active Anchor)**:
-   - Scaffold test cases representing happy path, boundary conditions, and error states.
-   - Explain what behavior each test exercises.
-
-3. **Step C — Core Algorithm / Implementation**:
-   - Implement the happy-path logic first.
-   - Guide the user line-by-line through the essential logic before tackling boilerplate.
-
-4. **Step D — Edge Cases & Defensive Hardening**:
-   - Address error handling, nil/null checks, resource cleanup, and timeout handling.
-
-At each step, prompt the user or give them the opportunity to write or review the code block before moving to the next.
-
----
-
-### Stage 4: Active Retrieval & Feynman Checkpoint
-
-Before marking the task complete, engage the learner with one active retrieval exercise:
-
-- **Feynman Check**: Ask the learner to explain the mechanism in plain terms:
-  > *"In 2-3 sentences, explain why we chose [Pattern X] over [Pattern Y] here, and what would fail if we didn't handle [Edge Case Z]?"*
-- **Prediction Prompt**: 
-  > *"If the input to this function is [...], what will line XX evaluate to?"*
-- **Fill-in Challenge**: Present a small piece of critical logic with a blank for the user to complete or verify.
-
-*Pedagogical Rule*: If the user demonstrates confusion, reduce scope, explain the missing prerequisite, and re-test understanding gently.
-
----
-
-### Stage 5: Validation, Reflection & Progress Tracking
-
-1. **Run Automated Tests**:
-   - Execute the test suite for the component.
-   - If tests fail, treat failure as a teaching moment: walk through the stack trace, formulate hypotheses, and guide the fix.
-
-2. **Update Tracking Markers**:
-   - Mark the lesson as completed in `.specify/tutorials/INDEX.md` (`- [X]`).
-   - Mark the task as completed in `tasks.md` (`- [X] Task ID`).
-
-3. **Summarize Key Takeaways**:
-   - Recap the 1-2 most important lessons learned.
-   - Ask the user: *"Ready to proceed to Lesson XX: [Next Task], or would you like to review this implementation further?"*
-
----
-
-## Mode Adjustments
-
-- **Accelerated Mode**: If the user says *"I already know this pattern, move faster"*, shorten the conceptual explanation and jump straight to the annotated code and edge-case review.
-- **Deep-Dive Mode**: If the user says *"Explain how this works under the hood"*, dive into compiler/runtime details, memory layouts, or protocol specs before continuing.
+9. **Stage 5: Validation, Reflection & Progress Tracking**:
+   - Provide step-by-step verification commands with explanations of flags (`-v`, `-k`, `--tb=short`, `-r expanded`). Teach clean filtering (e.g. piping to `grep -E "(\+[0-9]+|\[E\])"`) so stack traces do not scroll past the student's terminal buffer.
+   - Decode failure messages into plain English, clearly separating **Test Harness Defects** (e.g., compilation errors or 401 leaks from incomplete mocks) from **Intentional TDD Red Assertions** (confirming the test caught the legacy bug).
+   - When presenting the tutorial, keep the lesson and task marked as *In Progress* (`- [ ]`) in `.specify/tutorials/INDEX.md` and `tasks.md`.
+   - Provide manual verification instructions (including running on simulator/device or running unit/widget tests) and ask the user to verify their implementation.
+   - Only mark lesson complete in `.specify/tutorials/INDEX.md` (`- [X]`) and task complete in `tasks.md` (`- [X] Task ID`) AFTER the user confirms successful completion.
+   - Ask user if ready to proceed to the next lesson or explore further.
