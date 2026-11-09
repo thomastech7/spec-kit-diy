@@ -5,7 +5,11 @@ compatibility: "Requires spec-kit project structure with .specify/ directory"
 metadata:
   author: "github-spec-kit"
   source: "templates/commands/learn-implement.md"
+  repository: "https://github.com/thomastech7/spec-kit-diy"
+  local_repo: "/Users/thanh/work/spec-kit-diy"
 ---
+
+> **Upstream Skill Repository**: [`https://github.com/thomastech7/spec-kit-diy`](https://github.com/thomastech7/spec-kit-diy) (Local clone: `/Users/thanh/work/spec-kit-diy`) — Whenever this skill is updated locally in `/Users/thanh/.gemini/config/skills/speckit-learn-implement/SKILL.md`, sync and push the changes to both `.agents/skills/speckit-learn-implement/SKILL.md` and `templates/commands/learn-implement.md` in `thomastech7/spec-kit-diy`.
 
 ## User Input
 
@@ -128,6 +132,9 @@ Turn Spec Kit task execution into an active, pedagogical learning experience. In
    - **Real Device / Simulator Running**: Encourage the learner to run the app on a physical device, simulator, or desktop runner (e.g. `flutter run -d macos` / `flutter run -d chrome`) to interact with the UI live and feel the tactile experience.
    - **Workspace & Tenant Boundaries**: When temporary static workspace identifiers (e.g. `'thanh'`) are used during early scaffolding, explicitly identify the boundary and document backlog/user-story items for self-serve workspace creation and user invitation onboarding.
    - **Keyword Reference Mapping**: In each implementation step, explicitly highlight key technical terms/keywords with direct markdown links to authoritative documentation URLs (e.g. official language/framework docs, RFCs) so students can dive deeper easily.
+   - **Mandatory Step-Level Reference Guard (`📚 Reference Guard`)**: Before introducing any new step, API, or architectural primitive (e.g., Electron IPC, Rust FFI, Cryptography, OS sockets), include a **`📚 Reference Guard`** callout containing links to the official documentation, RFC, paper, or engineering design doc, and explain *what* the primitive is, *whether it is built-in*, and *how it works under the hood* before showing code.
+   - **Line-by-Line Code Anatomy (`🔬 Line-by-Line Code Anatomy`)**: Never drop a code block without an explicit line-by-line or block-by-block walkthrough explaining every non-trivial API call, argument, and memory/process interaction.
+   - **Explicit Comparison Synthesis (`💡 What Should We Conclude?`)**: Whenever asking the learner to compare a lab or step with production source files, always show the relevant production snippet side-by-side and follow it with an explicit **`💡 What Should We Conclude?`** callout that synthesizes the exact takeaways.
 
 8. **Stage 4: Active Retrieval & Feynman Checkpoint**:
    - Prompt the user with a targeted Feynman check, prediction challenge, or fill-in-the-blank prompt.
